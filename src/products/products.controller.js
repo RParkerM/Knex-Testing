@@ -16,13 +16,16 @@ async function read(req, res, next) {
 }
 
 async function list(req, res, next) {
-  // const data = productsService.list();
-  // res.json({ data });
   const data = await productsService.list();
   res.json({ data });
+}
+
+async function listOutOfStockCount(req, res) {
+  res.json({ data: await productsService.listOutOfStockCount() });
 }
 
 module.exports = {
   read: [asyncErrorBoundary(productExists), asyncErrorBoundary(read)],
   list: [asyncErrorBoundary(list)],
+  listOutOfStockCount: asyncErrorBoundary(listOutOfStockCount),
 };
