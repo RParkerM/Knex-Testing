@@ -17,6 +17,16 @@ function listPriceSummary() {
     .groupBy("supplier_id");
 }
 
+function listTotalWeightByProduct() {
+  return TABLE.select(
+    "product_sku",
+    "product_title",
+    knex.raw(
+      "sum(product_weight_in_lbs * product_quantity_in_stock) as total_weight_in_lbs"
+    )
+  ).groupBy("product_title", "product_sku");
+}
+
 function list() {
   return knex("products").select("*");
 }
@@ -25,4 +35,10 @@ function read(product_id) {
   return knex("products").select("*").where({ product_id }).first();
 }
 
-module.exports = { list, read, listOutOfStockCount, listPriceSummary };
+module.exports = {
+  list,
+  read,
+  listOutOfStockCount,
+  listPriceSummary,
+  listTotalWeightByProduct,
+};
